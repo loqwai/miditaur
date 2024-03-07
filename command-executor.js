@@ -1,68 +1,29 @@
-import {exec} from 'child_process';
-const KEY_DOWN = 160
-const KEY_UP = 128
+import { exec } from 'child_process';
 
-const FIRST_BIG_BUTTON = 92
-const SECOND_BIG_BUTTON = 93
-const THIRD_BIG_BUTTON = 94
+const KEY_DOWN = 160;
+const FIRST_BIG_BUTTON = 92;
+const SECOND_BIG_BUTTON = 93;
+const THIRD_BIG_BUTTON = 94;
+
 export class CommandExecutor {
+  executeCommand({ button, event, pressure }) {
+    if (event !== KEY_DOWN || pressure < 127) return;
 
-  registerCommand(command, executor) {
-    this.commands[command] = executor;
-  }
+    if (button === FIRST_BIG_BUTTON) {
+      exec('open -n /Applications/Google\\ Chrome.app');
+      return;
+    }
 
-  executeCommand({button, event, pressure, raw}) {
-    console.log(button)
-    switch(button){
-      case FIRST_BIG_BUTTON: {
-        switch (event) {
-          case KEY_DOWN: {
-            console.log('Button 1 pressed');
-            if(pressure >= 127) {
-              console.log('Button 1 pressed hard');
-              exec('open -n /Applications/Google\\ Chrome.app');
-            }
-            return;
-          }
-          default: {
-            return;
-          }
-        }
-      }
-      case SECOND_BIG_BUTTON: {
-        switch (event) {
-          case KEY_DOWN: {
-            console.log('Button 2 pressed');
-            if(pressure >= 127) {
-              console.log('Button 2 pressed hard');
-              exec('open /Applications/Alacritty.app -n;');
-            }
-            return;
-          }
-          default: {
-            return;
-          }
-        }
-      }
-      case THIRD_BIG_BUTTON: {
-        switch (event) {
-          case KEY_DOWN: {
-            console.log('Button 3 pressed');
-            if(pressure >= 127) {
-              console.log('Button 3 pressed hard');
-              exec('code');
-            }
-            return;
-          }
-          default: {
-            return;
-          }
-        }
-      }
-      default: {
-        return
-      }
+    if (button === SECOND_BIG_BUTTON) {
+      exec('open /Applications/Alacritty.app -n;');
+      return;
+    }
+
+    if (button === THIRD_BIG_BUTTON) {
+      exec('code');
+      return;
     }
   }
 }
+
 export default CommandExecutor;
