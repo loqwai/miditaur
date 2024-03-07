@@ -4,7 +4,7 @@ const KEY_DOWN = 160;
 const FIRST_BIG_BUTTON = 92;
 const SECOND_BIG_BUTTON = 93;
 const THIRD_BIG_BUTTON = 94;
-
+const FOURTH_BIG_BUTTON = 95;
 export class CommandExecutor {
   executeCommand({ button, event, pressure }) {
     if (event !== KEY_DOWN || pressure < 127) return;
@@ -21,6 +21,10 @@ export class CommandExecutor {
 
     if (button === THIRD_BIG_BUTTON) {
       exec('code');
+      return;
+    }
+    if (button === FOURTH_BIG_BUTTON) {
+      exec('open /Applications/Slack.app -n;');
       return;
     }
   }
