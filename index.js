@@ -8,12 +8,9 @@ const openAndListenToAllPorts = () => {
     const numPorts = new midi.input().getPortCount();
     for (let i = 0; i < numPorts; i++) {
         const input = new midi.input();
-        const portName = input.getPortName(i);
         input.openPort(i);
-        console.log(`Opened MIDI input port ${i}: ${portName}`);
         input.on('message', (deltaTime, message) => {
-            console.log(`Received MIDI message from port ${i} (${portName}):`, message);
-            executor.executeCommand({controlId: message[1], event: message[0], pressure: message[2]});
+            executor.executeCommand({button: message[1], event: message[0], pressure: message[2], raw: message});
         });
     }
 };
