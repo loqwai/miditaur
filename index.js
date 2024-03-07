@@ -13,7 +13,7 @@ const openAndListenToAllPorts = () => {
         console.log(`Opened MIDI input port ${i}: ${portName}`);
         input.on('message', (deltaTime, message) => {
             console.log(`Received MIDI message from port ${i} (${portName}):`, message);
-            executor.executeCommand(message[0], message.slice(1));
+            executor.executeCommand({controlId: message[1], event: message[0], pressure: message[2]});
         });
     }
 };
