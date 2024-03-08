@@ -11,6 +11,7 @@
   "author": "redaphid <iam@aaronherres.com>",
   "license": "MIT",
   "dependencies": {
-    "midi": "^2.0.0"
+    "midi": "^2.0.0",
+    "robotjs": "^0.6.0"
   }
 }
