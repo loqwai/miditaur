@@ -28,13 +28,17 @@ export class CommandExecutor {
       if(!key) return;
       robot.keyTap(key);
     });
+    return [144, button, 100];
   }
 
   executeCommand({ button, event, pressure }) {
     if(event === KEY_PRESSED) return this.keydown(button);
   }
-  addOutput(output) {
-    this.outputs.push(output);
+  setAllColors(output) {
+    console.log('Setting all colors');
+    for(let i = 0; i < 64; i++) {
+      output.send([144, 92+i, 92+i]);
+    }
   }
 }
 

@@ -1,20 +1,24 @@
 #!/usr/bin/env node
 import midi from 'midi';
-const listenToMidi = (executor) => {
+const listenToMidi = (ExecutorClass) => {
     const numPorts = new midi.input().getPortCount();
     console.log(`Found ${numPorts} MIDI input ports`);
     for (let i = 0; i < numPorts; i++) {
+        const executor = new ExecutorClass();
+
         const input = new midi.input();
         input.openPort(i);
 
         const output = new midi.output();
         output.openPort(i);
 
-        if(executor.addOutput) executor.addOutput(output);
 
         input.on('message', (deltaTime, message) => {
-            console.log(`MIDI message received: ${message}`);
-            executor.executeCommand({button: message[1], event: message[0], pressure: message[2], raw: message});
+            const res = executor.executeCommand({button: message[1], event: message[0], pressure: message[2], raw: message});
+            if (res) {
+                console.log('Sending message', res);
+                output.sendMessage(res);
+            }
         });
 
     }
@@ -26,8 +30,8 @@ const main = async (executorName) => {
     const executorPath = `./command-executors/${executorName ?? 'example'}.js`;
     console.log(`Using executor at ${executorPath}`);
     const executorModule = await import(executorPath);
-    const executor = new executorModule.default();
-    listenToMidi(executor);
+    const ExecutorClass = executorModule.default;
+    listenToMidi(ExecutorClass);
     // Add more logic here if needed
 };
 
