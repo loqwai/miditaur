@@ -14,9 +14,11 @@ const macros = {
 const KEY_PRESSED = 160;
 
 export class CommandExecutor {
-  outputs = []
-  constructor() {
+  constructor(input, output) {
+    this.input = input;
+    this.output = output;
     this.keydown = debounce(this.keydown, 100);
+    this.setAllColors();
   }
 
   keydown(button) {
@@ -28,16 +30,17 @@ export class CommandExecutor {
       if(!key) return;
       robot.keyTap(key);
     });
-    return [144, button, 100];
+    this.output.sendMessage([144, button, 127]);
   }
 
   executeCommand({ button, event, pressure }) {
     if(event === KEY_PRESSED) return this.keydown(button);
   }
-  setAllColors(output) {
+
+  setAllColors() {
     console.log('Setting all colors');
     for(let i = 0; i < 64; i++) {
-      output.send([144, 92+i, 92+i]);
+      this.output.send([144, 92+i, 92+i]);
     }
   }
 }

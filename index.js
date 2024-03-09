@@ -4,7 +4,6 @@ const listenToMidi = (ExecutorClass) => {
     const numPorts = new midi.input().getPortCount();
     console.log(`Found ${numPorts} MIDI input ports`);
     for (let i = 0; i < numPorts; i++) {
-        const executor = new ExecutorClass();
 
         const input = new midi.input();
         input.openPort(i);
@@ -12,13 +11,10 @@ const listenToMidi = (ExecutorClass) => {
         const output = new midi.output();
         output.openPort(i);
 
+        const executor = new ExecutorClass(input, output);
 
         input.on('message', (deltaTime, message) => {
             const res = executor.executeCommand({button: message[1], event: message[0], pressure: message[2], raw: message});
-            if (res) {
-                console.log('Sending message', res);
-                output.sendMessage(res);
-            }
         });
 
     }
