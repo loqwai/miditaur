@@ -44,7 +44,7 @@ export class CommandExecutor {
       5,  // Bright Red
       21, // Bright Green
       41, // Bright Ocean
-      57  // Bright Pink
+      53  // Bright Pink
     ];
     for (let x = 0; x < 8; x++) {
       for (let y = 0; y < 8; y++) {
@@ -52,7 +52,6 @@ export class CommandExecutor {
         // Determine the quadrant to assign the color
         const quadrant = Math.floor(x / 4) + Math.floor(y / 4) * 2;
         const color = colors[quadrant];
-        console.log({button, color});
         this.output.sendMessage([144, button, color]);
       }
     }
