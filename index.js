@@ -14,7 +14,7 @@ const listenToMidi = (ExecutorClass) => {
         const executor = new ExecutorClass(input, output);
 
         input.on('message', (deltaTime, message) => {
-            const res = executor.executeCommand({button: message[1], event: message[0], pressure: message[2], raw: message});
+            executor.executeCommand({button: message[1], event: message[0], pressure: message[2], raw: message});
         });
 
     }
