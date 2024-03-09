@@ -1,32 +1,22 @@
-import { exec } from 'child_process';
+import { exec } from "child_process";
+import robot from "robotjs";
+const macros = {
+  40: {
+    name: "helldivers1",
+    keys: "a a r o n space w w w",
+  },
+};
 
-const KEY_DOWN = 160;
-const FIRST_BIG_BUTTON = 92;
-const SECOND_BIG_BUTTON = 93;
-const THIRD_BIG_BUTTON = 94;
-const FOURTH_BIG_BUTTON = 95;
 export class CommandExecutor {
   executeCommand({ button, event, pressure }) {
-    if (event !== KEY_DOWN || pressure < 127) return;
+    const macro = macros[button];
+    if (!macro) return;
+    if(pressure === 0) return;
 
-    if (button === FIRST_BIG_BUTTON) {
-      exec('open -n /Applications/Google\\ Chrome.app');
-      return;
-    }
-
-    if (button === SECOND_BIG_BUTTON) {
-      exec('open /Applications/Alacritty.app -n;');
-      return;
-    }
-
-    if (button === THIRD_BIG_BUTTON) {
-      exec('code');
-      return;
-    }
-    if (button === FOURTH_BIG_BUTTON) {
-      exec('open /Applications/Slack.app -n;');
-      return;
-    }
+    const keys = macro.keys.split(" ");
+    keys.forEach((key) => {
+      robot.keyTap(key);
+    });
   }
 }
 
