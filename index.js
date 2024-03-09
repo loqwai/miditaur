@@ -14,9 +14,9 @@ const listenToMidi = (executor) => {
 };
 
 // Main function
-const main = async (executorPath) => {
+const main = async (executorName) => {
     console.log('Starting...');
-    executorPath = executorPath || './command-executors/example.js';
+    const executorPath = `./command-executors/${executorName ?? 'example'}.js`;
     console.log(`Using executor at ${executorPath}`);
     const executorModule = await import(executorPath);
     const executor = new executorModule.default();
