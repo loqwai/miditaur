@@ -38,9 +38,18 @@ export class CommandExecutor {
   }
 
   setAllColors() {
-    console.log('Setting all colors');
-    for(let i = 0; i < 64; i++) {
-      this.output.send([144, 92+i, 92+i]);
+    // there are 64 buttons, with keycodes starting at 92.
+    // for each 4x4 grid, set a unique color: red, green, blue, and yellow.
+    const colors: [
+      5
+      21,
+      41,
+      13
+    ]
+    for (let i = 0; i < 64; i++) {
+      const color = i % 4;
+      const button = 92 + i;
+      this.output.sendMessage([144, button, colors[color] ]);
     }
   }
 }
