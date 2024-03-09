@@ -6,6 +6,9 @@ const listenToMidi = (executor) => {
     for (let i = 0; i < numPorts; i++) {
         const input = new midi.input();
         input.openPort(i);
+        const output = new midi.output();
+        output.openPort(i);
+        executor.setOutput(output);
         input.on('message', (deltaTime, message) => {
             console.log(`MIDI message received: ${message}`);
             executor.executeCommand({button: message[1], event: message[0], pressure: message[2], raw: message});
