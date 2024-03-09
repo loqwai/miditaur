@@ -40,7 +40,7 @@ export class CommandExecutor {
   setAllColors() {
     // there are 64 buttons, with keycodes starting at 92.
     // for each 4x4 grid, set a unique color: red, green, blue, and yellow.
-    const colors: [
+    const colors = [
       5
       21,
       41,
