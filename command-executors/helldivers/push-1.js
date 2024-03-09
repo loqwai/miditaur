@@ -39,25 +39,25 @@ export class CommandExecutor {
 
   setAllColors() {
     console.log('Setting all colors');
-    // Adjusting the color assignments to ensure the pinks are truly represented
-    const quadrantColors = [
-      [5, 6, 7, 8],     // Reds
-      [21, 22, 23, 24], // Greens
-      [41, 42, 43, 44], // Oceans
-      [57, 58, 59, 56]  // Pinks, correcting the last to a bright orange for distinctiveness
+    // Simplifying the color scheme to solid, bright colors for each quadrant
+    const colors = [
+      5,  // Bright Red
+      21, // Bright Green
+      41, // Bright Ocean
+      57  // Bright Pink
     ];
     for (let x = 0; x < 8; x++) {
       for (let y = 0; y < 8; y++) {
-        // Correctly map x, y to button IDs, again
         const button = 92 + x - (y * 8);
-        // Selecting colors from the recalibrated quadrant palette
+        // Determine the quadrant to assign the color
         const quadrant = Math.floor(x / 4) + Math.floor(y / 4) * 2;
-        const color = quadrantColors[quadrant][(x % 4) + (y % 4) * 4 % 4]; // Ensure we cycle through colors correctly
+        const color = colors[quadrant];
         console.log({button, color});
         this.output.sendMessage([144, button, color]);
       }
     }
   }
+
 }
 
 export default CommandExecutor;
