@@ -15,6 +15,10 @@ const macros = {
     name: "map",
     keys: [Key.Tab],
   },
+  64: {
+    name: "Helldivers: Orbital Strike",
+    keys: [Key.D, Key.D, Key.W],
+  }
 };
 
 const KEY_PRESSED = 160;
@@ -25,7 +29,7 @@ export class CommandExecutor {
     this.output = output;
     this.keydown = debounce(this.keydown.bind(this), 100);
     this.setAllColors();
-    keyboard.config.autoDelayMs = 25;
+    keyboard.config.autoDelayMs = 120;
   }
 
   async keydown(button) {
@@ -37,7 +41,8 @@ export class CommandExecutor {
     await keyboard.pressKey(Key.LeftControl);
     for (const key of keys) {
       console.log(`Pressing: ${key}`);
-      await keyboard.type(key);
+      await keyboard.pressKey(key);
+      await keyboard.releaseKey(key);
     }
     await keyboard.releaseKey(Key.LeftControl);
   }
