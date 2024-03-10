@@ -5,11 +5,15 @@ import debounce from "debounce";
 const macros = {
   92: {
     name: "Helldivers: Machine Gun",
-    keys: [Key.Down, Key.Left, Key.Down, Key.Up, Key.Right],
+    keys: [Key.S, Key.A, Key.S, Key.W, Key.D],
   },
   93: {
     name: "test",
     keys: [Key.W, Key.W, Key.W, Key.W, Key.W],
+  },
+  94: {
+    name: "map",
+    keys: [Key.Tab],
   },
 };
 
@@ -21,7 +25,7 @@ export class CommandExecutor {
     this.output = output;
     this.keydown = debounce(this.keydown.bind(this), 100);
     this.setAllColors();
-    keyboard.config.autoDelayMs = 5;
+    keyboard.config.autoDelayMs = 25;
   }
 
   async keydown(button) {
@@ -30,11 +34,12 @@ export class CommandExecutor {
     if (!macro) return;
     console.log(`Executing: ${macro.name}`);
     const keys = macro.keys;
+    await keyboard.pressKey(Key.LeftControl);
     for (const key of keys) {
-      await keyboard.pressKey(key);
-      await keyboard.releaseKey(key);
+      console.log(`Pressing: ${key}`);
+      await keyboard.type(key);
     }
-    this.output.sendMessage([144, button, 127]);
+    await keyboard.releaseKey(Key.LeftControl);
   }
 
   async executeCommand({ button, event, pressure }) {
